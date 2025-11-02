@@ -3,6 +3,7 @@ import jwt, { Secret, JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
+
 export interface CustomRequest extends Request {
     token: string | JwtPayload;
    }
