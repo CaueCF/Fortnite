@@ -1,16 +1,20 @@
 import { Request, Response, Router } from "express";
-import credenciaisRepository from "../repositories/credenciaisRepository";
+import { PrismaClient } from "../generated/prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import { verifyJWT } from "../middlewares/jwtauth";
 
+dotenv.config();
+
 const credenciaisRouter = Router();
+
+const prisma = new PrismaClient();
 
 credenciaisRouter.get('/data', verifyJWT,
     async (_req: Request, res: Response): Promise<Response> => {
 
-        const credenciais = await credenciaisRepository.getCredenciais();
+        const credenciais = await prisma.credenciais.findMany();
         console.log(credenciais);
 
         return res.status(200).json(credenciais);
@@ -20,7 +24,7 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
     async (req: Request, res: Response): Promise<Response> => {
 
         try {
-            const credenciais = await credenciaisRepository.updateSenha(req.body);
+            const credenciais = await prisma.credenciais.update(req.body);
             console.log(credenciais);
 
             return res.status(200).json(credenciais);
@@ -38,7 +42,7 @@ credenciaisRouter.post('/login/auth',
         let verify = false, code= 1;
 
         try {
-            const credenciais = await credenciaisRepository.getLogin(req.body);
+            const credenciais = await prisma.credenciais.findUnique(req.body);
 
             //console.log(req.body.senha);
             //console.log(credenciais.senha);
@@ -48,26 +52,21 @@ credenciaisRouter.post('/login/auth',
                 throw new Error('Nome de usuário incorreto');
             }
 
-            if (credenciais.senha.replace(/[\D]/g, "") === credenciais.mantenedor.cpf.replace(/[\D]/g, '')) {
-                
-                verify = true;
-                code = 1;
-
-            } else {
                 verify = await bcrypt.compare(req.body.senha.toString(), credenciais.senha);
                 code = 0;
                 //console.log(verify);
-            }
 
             if (verify) {
 
+                if(!process.env.JWT_SECRET_KEY){
+                    throw new Error('JWT_SECRET_KEY must be defined')
+                }
+
                 const id = credenciais.id?.toString();
-                const nome = credenciais.mantenedor.nome;
-                const admin = credenciais.mantenedor.admin;
+                const nome = credenciais.username;
                 const accessToken = jwt.sign({
                     id: id,
                     nome: nome,
-                    admin: admin
                 },
                     process.env.JWT_SECRET_KEY,
                     {
@@ -77,7 +76,6 @@ credenciaisRouter.post('/login/auth',
                 const refreshToken = jwt.sign({
                     id: id,
                     nome: nome,
-                    admin: admin
                 },
                     process.env.JWT_SECRET_KEY,
                     {
@@ -88,7 +86,6 @@ credenciaisRouter.post('/login/auth',
                     code: code,
                     mantenedorId: id,
                     nome: nome,
-                    admin: admin,
                     accessToken: accessToken,
                     refreshToken: refreshToken
                 });
@@ -96,8 +93,6 @@ credenciaisRouter.post('/login/auth',
             } else {
                 throw new Error('Senha incorreta!');
             }
-
-
 
         }
         catch (error) {

@@ -2,7 +2,7 @@ import IUser from "./user";
 
 export class ICredenciais {
     id?: number;
-    userId: number;
+    username: string;
     senha: string;
     user: IUser;
 }
