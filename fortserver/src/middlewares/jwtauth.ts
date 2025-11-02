@@ -6,7 +6,6 @@ dotenv.config();
 export interface CustomRequest extends Request {
     token: string | JwtPayload;
    }
-   
 
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
 
