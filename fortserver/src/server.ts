@@ -1,8 +1,8 @@
 import config from './config/config';
 import express from 'express';
 import cors from "cors";
-import itemRoutes from './routes/itemRoutes';
 import { errorHandler } from './middlewares/errorHandler';
+import routers from './routes/routes';
 
 const app = express();
 
@@ -15,7 +15,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Routes
-app.use('/api/items', itemRoutes);
+app.use(routers);
 
 // Global error handler (should be after routes)
 app.use(errorHandler);

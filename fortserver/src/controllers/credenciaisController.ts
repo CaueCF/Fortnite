@@ -23,8 +23,10 @@ credenciaisRouter.get('/data', verifyJWT,
 credenciaisRouter.post('/updateSenha', verifyJWT,
     async (req: Request, res: Response): Promise<Response> => {
 
+        let { data } = req.body;
+
         try {
-            const credenciais = await prisma.credenciais.update(req.body);
+            const credenciais = await prisma.credenciais.update(data);
             console.log(credenciais);
 
             return res.status(200).json(credenciais);
@@ -40,21 +42,25 @@ credenciaisRouter.post('/login/auth',
     async (req: Request, res: Response): Promise<Response> => {
 
         let verify = false, code= 1;
-
+        let {username, senha} = req.body;
+        // console.log({username, senha});
         try {
-            const credenciais = await prisma.credenciais.findUnique(req.body);
+            const credenciais = await prisma.credenciais.findFirst({
+                where: {
+                    username: username, 
+                }
+            });
 
-            //console.log(req.body.senha);
-            //console.log(credenciais.senha);
+            // console.log(senha);
+            // console.log(credenciais);
             
 
             if (!credenciais) {
                 throw new Error('Nome de usuário incorreto');
             }
-
-                verify = await bcrypt.compare(req.body.senha.toString(), credenciais.senha);
+                verify = await bcrypt.compare(senha, credenciais.senha);
                 code = 0;
-                //console.log(verify);
+                // console.log(verify);
 
             if (verify) {
 
