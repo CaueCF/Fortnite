@@ -140,5 +140,5 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 fortserver/node_modules/.package-lock.json
-
+fortserver/node_modules/*
 fortserver/.env
