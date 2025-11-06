@@ -23,4 +23,26 @@ model user {
   nome        String        @db.VarChar(200)
   vbucks      Int
   credenciais credenciais[]
+  inventarios inventarios[]
+  transacoes  transacoes[]
+}
+
+model inventarios {
+  id      Int    @id @default(autoincrement())
+  item_id String @db.VarChar(200)
+  user_id Int
+  user    user   @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "inventarios_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model transacoes {
+  id      Int    @id @default(autoincrement())
+  item_id String @db.VarChar(200)
+  valor   Int
+  fluxo   Int
+  user_id Int
+  user    user   @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "transacoes_ibfk_1")
+
+  @@index([user_id], map: "user_id")
 }
