@@ -33,9 +33,9 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
                     userId: Number(id),
                 }
             });
-
+            let hashSenha = await bcrypt.hash(senha, Number(process.env.SALTROUNDS));
             const credenciais = await prisma.credenciais.update({
-                data: {senha: senha},
+                data: {senha: hashSenha},
                 where: {
                     id: credencial?.id,
                 }
