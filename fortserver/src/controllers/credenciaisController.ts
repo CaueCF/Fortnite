@@ -14,10 +14,10 @@ const prisma = new PrismaClient();
 credenciaisRouter.get('/data', verifyJWT,
     async (_req: Request, res: Response): Promise<Response> => {
 
-        const credenciais = await prisma.credenciais.findMany();
-        // console.log(credenciais);
+        const user = await prisma.user.findMany();
+        // console.log(user);
 
-        return res.status(200).json(credenciais);
+        return res.status(200).json(user);
     });
 
 credenciaisRouter.post('/updateSenha', verifyJWT,
@@ -26,23 +26,23 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
         let { senha } = req.body;
         const token = req.headers.authorization;
         const { id } = jwt.decode(String(token)) as { id: number };
-        
+
         try {
-            const credencial = await prisma.credenciais.findFirst({
-                where:{
-                    userId: Number(id),
+            const credencial = await prisma.user.findFirst({
+                where: {
+                    id: Number(id),
                 }
             });
             let hashSenha = await bcrypt.hash(senha, Number(process.env.SALTROUNDS));
-            const credenciais = await prisma.credenciais.update({
-                data: {senha: hashSenha},
+            const user = await prisma.user.update({
+                data: { senha: hashSenha },
                 where: {
                     id: credencial?.id,
                 }
             });
-            // console.log(credenciais);
+            // console.log(user);
 
-            return res.status(200).json(credenciais);
+            return res.status(200).json(user);
         }
         catch (error) {
             error = (error instanceof Error) ? error.message : String(error);
@@ -54,38 +54,38 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
 credenciaisRouter.post('/login/auth',
     async (req: Request, res: Response): Promise<Response> => {
 
-        let verify = false, code= 1;
-        let {username, senha} = req.body;
-        // console.log({username, senha});
+        let verify = false, code = 1;
+        let { email, senha } = req.body;
+        // console.log({email, senha});
         try {
-            const credenciais = await prisma.credenciais.findFirst({
+            const user = await prisma.user.findFirst({
                 where: {
-                    username: username, 
+                    email: email,
                 }
             });
 
             // console.log(senha);
             // console.log(credenciais);
-            
 
-            if (!credenciais) {
+
+            if (!user) {
                 throw new Error('Nome de usuário incorreto');
             }
-                verify = await bcrypt.compare(senha, credenciais.senha);
-                code = 0;
-                // console.log(verify);
+            verify = await bcrypt.compare(senha, user.senha);
+            code = 0;
+            // console.log(verify);
 
             if (verify) {
 
-                if(!process.env.JWT_SECRET_KEY){
+                if (!process.env.JWT_SECRET_KEY) {
                     throw new Error('JWT_SECRET_KEY must be defined');
                 }
 
-                const id = credenciais.id?.toString();
-                const username = credenciais.username;
+                const id = user.id?.toString();
+                const email = user.email;
                 const accessToken = jwt.sign({
                     id: id,
-                    username: username,
+                    email: email,
                 },
                     process.env.JWT_SECRET_KEY,
                     {
@@ -94,7 +94,7 @@ credenciaisRouter.post('/login/auth',
 
                 const refreshToken = jwt.sign({
                     id: id,
-                    username: username,
+                    email: email,
                 },
                     process.env.JWT_SECRET_KEY,
                     {
@@ -104,7 +104,7 @@ credenciaisRouter.post('/login/auth',
                 return res.status(200).json({
                     code: code,
                     userId: id,
-                    username: username,
+                    email: email,
                     accessToken: accessToken,
                     refreshToken: refreshToken
                 });
@@ -120,31 +120,32 @@ credenciaisRouter.post('/login/auth',
         }
     });
 
-    credenciaisRouter.post('/createCredenciais',
+credenciaisRouter.post('/createCredenciais',
     async (req: Request, res: Response): Promise<Response> => {
 
-        let { nome, username, senha } = req.body;
-        // console.log({nome, username, senha});
+        let { nome, email, senha } = req.body;
+        // console.log({nome, email, senha});
         let hashSenha = await bcrypt.hash(senha, Number(process.env.SALTROUNDS));
         try {
-            
-            let User = await prisma.user.create({
-                data:{
-                    nome: nome, 
-                    vbucks:10000,
-                }
-            });
 
-            const credenciais = await prisma.credenciais.create({
-                data:{
-                    userId: User.id,
-                    username: username,
+            let User = await prisma.user.create({
+                data: {
+                    nome: nome,
+                    vbucks: 10000,
+                    email: email,
                     senha: hashSenha,
                 }
             });
+
+            // const credenciais = await prisma.credenciais.create({
+            //     data:{
+            //         userId: User.id,
+
+            //     }
+            // });
             // console.log(credenciais);
 
-            return res.status(200).json(credenciais);
+            return res.status(200).json(User);
         }
         catch (error) {
             error = (error instanceof Error) ? error.message : String(error);

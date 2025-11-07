@@ -38,18 +38,24 @@ export type UserSumAggregateOutputType = {
 
 export type UserMinAggregateOutputType = {
   id: number | null
+  email: string | null
+  senha: string | null
   nome: string | null
   vbucks: number | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: number | null
+  email: string | null
+  senha: string | null
   nome: string | null
   vbucks: number | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
+  email: number
+  senha: number
   nome: number
   vbucks: number
   _all: number
@@ -68,18 +74,24 @@ export type UserSumAggregateInputType = {
 
 export type UserMinAggregateInputType = {
   id?: true
+  email?: true
+  senha?: true
   nome?: true
   vbucks?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
+  email?: true
+  senha?: true
   nome?: true
   vbucks?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
+  email?: true
+  senha?: true
   nome?: true
   vbucks?: true
   _all?: true
@@ -173,6 +185,8 @@ export type userGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: number
+  email: string
+  senha: string
   nome: string
   vbucks: number
   _count: UserCountAggregateOutputType | null
@@ -202,18 +216,20 @@ export type userWhereInput = {
   OR?: Prisma.userWhereInput[]
   NOT?: Prisma.userWhereInput | Prisma.userWhereInput[]
   id?: Prisma.IntFilter<"user"> | number
+  email?: Prisma.StringFilter<"user"> | string
+  senha?: Prisma.StringFilter<"user"> | string
   nome?: Prisma.StringFilter<"user"> | string
   vbucks?: Prisma.IntFilter<"user"> | number
-  credenciais?: Prisma.CredenciaisListRelationFilter
   inventarios?: Prisma.InventariosListRelationFilter
   transacoes?: Prisma.TransacoesListRelationFilter
 }
 
 export type userOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  senha?: Prisma.SortOrder
   nome?: Prisma.SortOrder
   vbucks?: Prisma.SortOrder
-  credenciais?: Prisma.credenciaisOrderByRelationAggregateInput
   inventarios?: Prisma.inventariosOrderByRelationAggregateInput
   transacoes?: Prisma.transacoesOrderByRelationAggregateInput
   _relevance?: Prisma.userOrderByRelevanceInput
@@ -224,15 +240,18 @@ export type userWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.userWhereInput | Prisma.userWhereInput[]
   OR?: Prisma.userWhereInput[]
   NOT?: Prisma.userWhereInput | Prisma.userWhereInput[]
+  email?: Prisma.StringFilter<"user"> | string
+  senha?: Prisma.StringFilter<"user"> | string
   nome?: Prisma.StringFilter<"user"> | string
   vbucks?: Prisma.IntFilter<"user"> | number
-  credenciais?: Prisma.CredenciaisListRelationFilter
   inventarios?: Prisma.InventariosListRelationFilter
   transacoes?: Prisma.TransacoesListRelationFilter
 }, "id">
 
 export type userOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  senha?: Prisma.SortOrder
   nome?: Prisma.SortOrder
   vbucks?: Prisma.SortOrder
   _count?: Prisma.userCountOrderByAggregateInput
@@ -247,64 +266,71 @@ export type userScalarWhereWithAggregatesInput = {
   OR?: Prisma.userScalarWhereWithAggregatesInput[]
   NOT?: Prisma.userScalarWhereWithAggregatesInput | Prisma.userScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"user"> | number
+  email?: Prisma.StringWithAggregatesFilter<"user"> | string
+  senha?: Prisma.StringWithAggregatesFilter<"user"> | string
   nome?: Prisma.StringWithAggregatesFilter<"user"> | string
   vbucks?: Prisma.IntWithAggregatesFilter<"user"> | number
 }
 
 export type userCreateInput = {
+  email: string
+  senha: string
   nome: string
-  vbucks: number
-  credenciais?: Prisma.credenciaisCreateNestedManyWithoutUserInput
+  vbucks?: number
   inventarios?: Prisma.inventariosCreateNestedManyWithoutUserInput
   transacoes?: Prisma.transacoesCreateNestedManyWithoutUserInput
 }
 
 export type userUncheckedCreateInput = {
   id?: number
+  email: string
+  senha: string
   nome: string
-  vbucks: number
-  credenciais?: Prisma.credenciaisUncheckedCreateNestedManyWithoutUserInput
+  vbucks?: number
   inventarios?: Prisma.inventariosUncheckedCreateNestedManyWithoutUserInput
   transacoes?: Prisma.transacoesUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type userUpdateInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  credenciais?: Prisma.credenciaisUpdateManyWithoutUserNestedInput
   inventarios?: Prisma.inventariosUpdateManyWithoutUserNestedInput
   transacoes?: Prisma.transacoesUpdateManyWithoutUserNestedInput
 }
 
 export type userUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  credenciais?: Prisma.credenciaisUncheckedUpdateManyWithoutUserNestedInput
   inventarios?: Prisma.inventariosUncheckedUpdateManyWithoutUserNestedInput
   transacoes?: Prisma.transacoesUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type userCreateManyInput = {
   id?: number
+  email: string
+  senha: string
   nome: string
-  vbucks: number
+  vbucks?: number
 }
 
 export type userUpdateManyMutationInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type userUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type UserScalarRelationFilter = {
-  is?: Prisma.userWhereInput
-  isNot?: Prisma.userWhereInput
 }
 
 export type userOrderByRelevanceInput = {
@@ -315,6 +341,8 @@ export type userOrderByRelevanceInput = {
 
 export type userCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  senha?: Prisma.SortOrder
   nome?: Prisma.SortOrder
   vbucks?: Prisma.SortOrder
 }
@@ -326,12 +354,16 @@ export type userAvgOrderByAggregateInput = {
 
 export type userMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  senha?: Prisma.SortOrder
   nome?: Prisma.SortOrder
   vbucks?: Prisma.SortOrder
 }
 
 export type userMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  senha?: Prisma.SortOrder
   nome?: Prisma.SortOrder
   vbucks?: Prisma.SortOrder
 }
@@ -341,18 +373,21 @@ export type userSumOrderByAggregateInput = {
   vbucks?: Prisma.SortOrder
 }
 
-export type userCreateNestedOneWithoutCredenciaisInput = {
-  create?: Prisma.XOR<Prisma.userCreateWithoutCredenciaisInput, Prisma.userUncheckedCreateWithoutCredenciaisInput>
-  connectOrCreate?: Prisma.userCreateOrConnectWithoutCredenciaisInput
-  connect?: Prisma.userWhereUniqueInput
+export type UserScalarRelationFilter = {
+  is?: Prisma.userWhereInput
+  isNot?: Prisma.userWhereInput
 }
 
-export type userUpdateOneRequiredWithoutCredenciaisNestedInput = {
-  create?: Prisma.XOR<Prisma.userCreateWithoutCredenciaisInput, Prisma.userUncheckedCreateWithoutCredenciaisInput>
-  connectOrCreate?: Prisma.userCreateOrConnectWithoutCredenciaisInput
-  upsert?: Prisma.userUpsertWithoutCredenciaisInput
-  connect?: Prisma.userWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.userUpdateToOneWithWhereWithoutCredenciaisInput, Prisma.userUpdateWithoutCredenciaisInput>, Prisma.userUncheckedUpdateWithoutCredenciaisInput>
+export type StringFieldUpdateOperationsInput = {
+  set?: string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type userCreateNestedOneWithoutInventariosInput = {
@@ -383,64 +418,20 @@ export type userUpdateOneRequiredWithoutTransacoesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.userUpdateToOneWithWhereWithoutTransacoesInput, Prisma.userUpdateWithoutTransacoesInput>, Prisma.userUncheckedUpdateWithoutTransacoesInput>
 }
 
-export type userCreateWithoutCredenciaisInput = {
-  nome: string
-  vbucks: number
-  inventarios?: Prisma.inventariosCreateNestedManyWithoutUserInput
-  transacoes?: Prisma.transacoesCreateNestedManyWithoutUserInput
-}
-
-export type userUncheckedCreateWithoutCredenciaisInput = {
-  id?: number
-  nome: string
-  vbucks: number
-  inventarios?: Prisma.inventariosUncheckedCreateNestedManyWithoutUserInput
-  transacoes?: Prisma.transacoesUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type userCreateOrConnectWithoutCredenciaisInput = {
-  where: Prisma.userWhereUniqueInput
-  create: Prisma.XOR<Prisma.userCreateWithoutCredenciaisInput, Prisma.userUncheckedCreateWithoutCredenciaisInput>
-}
-
-export type userUpsertWithoutCredenciaisInput = {
-  update: Prisma.XOR<Prisma.userUpdateWithoutCredenciaisInput, Prisma.userUncheckedUpdateWithoutCredenciaisInput>
-  create: Prisma.XOR<Prisma.userCreateWithoutCredenciaisInput, Prisma.userUncheckedCreateWithoutCredenciaisInput>
-  where?: Prisma.userWhereInput
-}
-
-export type userUpdateToOneWithWhereWithoutCredenciaisInput = {
-  where?: Prisma.userWhereInput
-  data: Prisma.XOR<Prisma.userUpdateWithoutCredenciaisInput, Prisma.userUncheckedUpdateWithoutCredenciaisInput>
-}
-
-export type userUpdateWithoutCredenciaisInput = {
-  nome?: Prisma.StringFieldUpdateOperationsInput | string
-  vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  inventarios?: Prisma.inventariosUpdateManyWithoutUserNestedInput
-  transacoes?: Prisma.transacoesUpdateManyWithoutUserNestedInput
-}
-
-export type userUncheckedUpdateWithoutCredenciaisInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  nome?: Prisma.StringFieldUpdateOperationsInput | string
-  vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  inventarios?: Prisma.inventariosUncheckedUpdateManyWithoutUserNestedInput
-  transacoes?: Prisma.transacoesUncheckedUpdateManyWithoutUserNestedInput
-}
-
 export type userCreateWithoutInventariosInput = {
+  email: string
+  senha: string
   nome: string
-  vbucks: number
-  credenciais?: Prisma.credenciaisCreateNestedManyWithoutUserInput
+  vbucks?: number
   transacoes?: Prisma.transacoesCreateNestedManyWithoutUserInput
 }
 
 export type userUncheckedCreateWithoutInventariosInput = {
   id?: number
+  email: string
+  senha: string
   nome: string
-  vbucks: number
-  credenciais?: Prisma.credenciaisUncheckedCreateNestedManyWithoutUserInput
+  vbucks?: number
   transacoes?: Prisma.transacoesUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -461,32 +452,36 @@ export type userUpdateToOneWithWhereWithoutInventariosInput = {
 }
 
 export type userUpdateWithoutInventariosInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  credenciais?: Prisma.credenciaisUpdateManyWithoutUserNestedInput
   transacoes?: Prisma.transacoesUpdateManyWithoutUserNestedInput
 }
 
 export type userUncheckedUpdateWithoutInventariosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  credenciais?: Prisma.credenciaisUncheckedUpdateManyWithoutUserNestedInput
   transacoes?: Prisma.transacoesUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type userCreateWithoutTransacoesInput = {
+  email: string
+  senha: string
   nome: string
-  vbucks: number
-  credenciais?: Prisma.credenciaisCreateNestedManyWithoutUserInput
+  vbucks?: number
   inventarios?: Prisma.inventariosCreateNestedManyWithoutUserInput
 }
 
 export type userUncheckedCreateWithoutTransacoesInput = {
   id?: number
+  email: string
+  senha: string
   nome: string
-  vbucks: number
-  credenciais?: Prisma.credenciaisUncheckedCreateNestedManyWithoutUserInput
+  vbucks?: number
   inventarios?: Prisma.inventariosUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -507,17 +502,19 @@ export type userUpdateToOneWithWhereWithoutTransacoesInput = {
 }
 
 export type userUpdateWithoutTransacoesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  credenciais?: Prisma.credenciaisUpdateManyWithoutUserNestedInput
   inventarios?: Prisma.inventariosUpdateManyWithoutUserNestedInput
 }
 
 export type userUncheckedUpdateWithoutTransacoesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.StringFieldUpdateOperationsInput | string
   vbucks?: Prisma.IntFieldUpdateOperationsInput | number
-  credenciais?: Prisma.credenciaisUncheckedUpdateManyWithoutUserNestedInput
   inventarios?: Prisma.inventariosUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -527,13 +524,11 @@ export type userUncheckedUpdateWithoutTransacoesInput = {
  */
 
 export type UserCountOutputType = {
-  credenciais: number
   inventarios: number
   transacoes: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  credenciais?: boolean | UserCountOutputTypeCountCredenciaisArgs
   inventarios?: boolean | UserCountOutputTypeCountInventariosArgs
   transacoes?: boolean | UserCountOutputTypeCountTransacoesArgs
 }
@@ -546,13 +541,6 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCredenciaisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.credenciaisWhereInput
 }
 
 /**
@@ -572,9 +560,10 @@ export type UserCountOutputTypeCountTransacoesArgs<ExtArgs extends runtime.Types
 
 export type userSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  email?: boolean
+  senha?: boolean
   nome?: boolean
   vbucks?: boolean
-  credenciais?: boolean | Prisma.user$credenciaisArgs<ExtArgs>
   inventarios?: boolean | Prisma.user$inventariosArgs<ExtArgs>
   transacoes?: boolean | Prisma.user$transacoesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -584,13 +573,14 @@ export type userSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type userSelectScalar = {
   id?: boolean
+  email?: boolean
+  senha?: boolean
   nome?: boolean
   vbucks?: boolean
 }
 
-export type userOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "vbucks", ExtArgs["result"]["user"]>
+export type userOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "senha" | "nome" | "vbucks", ExtArgs["result"]["user"]>
 export type userInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  credenciais?: boolean | Prisma.user$credenciaisArgs<ExtArgs>
   inventarios?: boolean | Prisma.user$inventariosArgs<ExtArgs>
   transacoes?: boolean | Prisma.user$transacoesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -599,12 +589,13 @@ export type userInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type $userPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "user"
   objects: {
-    credenciais: Prisma.$credenciaisPayload<ExtArgs>[]
     inventarios: Prisma.$inventariosPayload<ExtArgs>[]
     transacoes: Prisma.$transacoesPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    email: string
+    senha: string
     nome: string
     vbucks: number
   }, ExtArgs["result"]["user"]>
@@ -947,7 +938,6 @@ readonly fields: userFieldRefs;
  */
 export interface Prisma__userClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  credenciais<T extends Prisma.user$credenciaisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user$credenciaisArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$credenciaisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   inventarios<T extends Prisma.user$inventariosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user$inventariosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inventariosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transacoes<T extends Prisma.user$transacoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.user$transacoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$transacoesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -980,6 +970,8 @@ export interface Prisma__userClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface userFieldRefs {
   readonly id: Prisma.FieldRef<"user", 'Int'>
+  readonly email: Prisma.FieldRef<"user", 'String'>
+  readonly senha: Prisma.FieldRef<"user", 'String'>
   readonly nome: Prisma.FieldRef<"user", 'String'>
   readonly vbucks: Prisma.FieldRef<"user", 'Int'>
 }
@@ -1322,30 +1314,6 @@ export type userDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many users to delete.
    */
   limit?: number
-}
-
-/**
- * user.credenciais
- */
-export type user$credenciaisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the credenciais
-   */
-  select?: Prisma.credenciaisSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the credenciais
-   */
-  omit?: Prisma.credenciaisOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.credenciaisInclude<ExtArgs> | null
-  where?: Prisma.credenciaisWhereInput
-  orderBy?: Prisma.credenciaisOrderByWithRelationInput | Prisma.credenciaisOrderByWithRelationInput[]
-  cursor?: Prisma.credenciaisWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CredenciaisScalarFieldEnum | Prisma.CredenciaisScalarFieldEnum[]
 }
 
 /**

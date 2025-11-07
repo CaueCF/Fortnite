@@ -49,7 +49,6 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  credenciais: 'credenciais',
   user: 'user',
   inventarios: 'inventarios',
   transacoes: 'transacoes'
@@ -71,18 +70,10 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const CredenciaisScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  senha: 'senha',
-  username: 'username'
-} as const
-
-export type CredenciaisScalarFieldEnum = (typeof CredenciaisScalarFieldEnum)[keyof typeof CredenciaisScalarFieldEnum]
-
-
 export const UserScalarFieldEnum = {
   id: 'id',
+  email: 'email',
+  senha: 'senha',
   nome: 'nome',
   vbucks: 'vbucks'
 } as const
@@ -104,7 +95,8 @@ export const TransacoesScalarFieldEnum = {
   item_id: 'item_id',
   valor: 'valor',
   fluxo: 'fluxo',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  occuredAt: 'occuredAt'
 } as const
 
 export type TransacoesScalarFieldEnum = (typeof TransacoesScalarFieldEnum)[keyof typeof TransacoesScalarFieldEnum]
@@ -118,15 +110,9 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const credenciaisOrderByRelevanceFieldEnum = {
-  senha: 'senha',
-  username: 'username'
-} as const
-
-export type credenciaisOrderByRelevanceFieldEnum = (typeof credenciaisOrderByRelevanceFieldEnum)[keyof typeof credenciaisOrderByRelevanceFieldEnum]
-
-
 export const userOrderByRelevanceFieldEnum = {
+  email: 'email',
+  senha: 'senha',
   nome: 'nome'
 } as const
 

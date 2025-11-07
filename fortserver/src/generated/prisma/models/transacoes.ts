@@ -46,6 +46,7 @@ export type TransacoesMinAggregateOutputType = {
   valor: number | null
   fluxo: number | null
   user_id: number | null
+  occuredAt: Date | null
 }
 
 export type TransacoesMaxAggregateOutputType = {
@@ -54,6 +55,7 @@ export type TransacoesMaxAggregateOutputType = {
   valor: number | null
   fluxo: number | null
   user_id: number | null
+  occuredAt: Date | null
 }
 
 export type TransacoesCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type TransacoesCountAggregateOutputType = {
   valor: number
   fluxo: number
   user_id: number
+  occuredAt: number
   _all: number
 }
 
@@ -86,6 +89,7 @@ export type TransacoesMinAggregateInputType = {
   valor?: true
   fluxo?: true
   user_id?: true
+  occuredAt?: true
 }
 
 export type TransacoesMaxAggregateInputType = {
@@ -94,6 +98,7 @@ export type TransacoesMaxAggregateInputType = {
   valor?: true
   fluxo?: true
   user_id?: true
+  occuredAt?: true
 }
 
 export type TransacoesCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type TransacoesCountAggregateInputType = {
   valor?: true
   fluxo?: true
   user_id?: true
+  occuredAt?: true
   _all?: true
 }
 
@@ -197,6 +203,7 @@ export type TransacoesGroupByOutputType = {
   valor: number
   fluxo: number
   user_id: number
+  occuredAt: Date
   _count: TransacoesCountAggregateOutputType | null
   _avg: TransacoesAvgAggregateOutputType | null
   _sum: TransacoesSumAggregateOutputType | null
@@ -228,6 +235,7 @@ export type transacoesWhereInput = {
   valor?: Prisma.IntFilter<"transacoes"> | number
   fluxo?: Prisma.IntFilter<"transacoes"> | number
   user_id?: Prisma.IntFilter<"transacoes"> | number
+  occuredAt?: Prisma.DateTimeFilter<"transacoes"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }
 
@@ -237,6 +245,7 @@ export type transacoesOrderByWithRelationInput = {
   valor?: Prisma.SortOrder
   fluxo?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  occuredAt?: Prisma.SortOrder
   user?: Prisma.userOrderByWithRelationInput
   _relevance?: Prisma.transacoesOrderByRelevanceInput
 }
@@ -250,6 +259,7 @@ export type transacoesWhereUniqueInput = Prisma.AtLeast<{
   valor?: Prisma.IntFilter<"transacoes"> | number
   fluxo?: Prisma.IntFilter<"transacoes"> | number
   user_id?: Prisma.IntFilter<"transacoes"> | number
+  occuredAt?: Prisma.DateTimeFilter<"transacoes"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
 }, "id">
 
@@ -259,6 +269,7 @@ export type transacoesOrderByWithAggregationInput = {
   valor?: Prisma.SortOrder
   fluxo?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  occuredAt?: Prisma.SortOrder
   _count?: Prisma.transacoesCountOrderByAggregateInput
   _avg?: Prisma.transacoesAvgOrderByAggregateInput
   _max?: Prisma.transacoesMaxOrderByAggregateInput
@@ -275,12 +286,14 @@ export type transacoesScalarWhereWithAggregatesInput = {
   valor?: Prisma.IntWithAggregatesFilter<"transacoes"> | number
   fluxo?: Prisma.IntWithAggregatesFilter<"transacoes"> | number
   user_id?: Prisma.IntWithAggregatesFilter<"transacoes"> | number
+  occuredAt?: Prisma.DateTimeWithAggregatesFilter<"transacoes"> | Date | string
 }
 
 export type transacoesCreateInput = {
   item_id: string
   valor: number
   fluxo: number
+  occuredAt?: Date | string
   user: Prisma.userCreateNestedOneWithoutTransacoesInput
 }
 
@@ -290,12 +303,14 @@ export type transacoesUncheckedCreateInput = {
   valor: number
   fluxo: number
   user_id: number
+  occuredAt?: Date | string
 }
 
 export type transacoesUpdateInput = {
   item_id?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutTransacoesNestedInput
 }
 
@@ -305,6 +320,7 @@ export type transacoesUncheckedUpdateInput = {
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type transacoesCreateManyInput = {
@@ -313,12 +329,14 @@ export type transacoesCreateManyInput = {
   valor: number
   fluxo: number
   user_id: number
+  occuredAt?: Date | string
 }
 
 export type transacoesUpdateManyMutationInput = {
   item_id?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type transacoesUncheckedUpdateManyInput = {
@@ -327,6 +345,7 @@ export type transacoesUncheckedUpdateManyInput = {
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
   user_id?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TransacoesListRelationFilter = {
@@ -351,6 +370,7 @@ export type transacoesCountOrderByAggregateInput = {
   valor?: Prisma.SortOrder
   fluxo?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  occuredAt?: Prisma.SortOrder
 }
 
 export type transacoesAvgOrderByAggregateInput = {
@@ -366,6 +386,7 @@ export type transacoesMaxOrderByAggregateInput = {
   valor?: Prisma.SortOrder
   fluxo?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  occuredAt?: Prisma.SortOrder
 }
 
 export type transacoesMinOrderByAggregateInput = {
@@ -374,6 +395,7 @@ export type transacoesMinOrderByAggregateInput = {
   valor?: Prisma.SortOrder
   fluxo?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
+  occuredAt?: Prisma.SortOrder
 }
 
 export type transacoesSumOrderByAggregateInput = {
@@ -425,10 +447,15 @@ export type transacoesUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.transacoesScalarWhereInput | Prisma.transacoesScalarWhereInput[]
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
 export type transacoesCreateWithoutUserInput = {
   item_id: string
   valor: number
   fluxo: number
+  occuredAt?: Date | string
 }
 
 export type transacoesUncheckedCreateWithoutUserInput = {
@@ -436,6 +463,7 @@ export type transacoesUncheckedCreateWithoutUserInput = {
   item_id: string
   valor: number
   fluxo: number
+  occuredAt?: Date | string
 }
 
 export type transacoesCreateOrConnectWithoutUserInput = {
@@ -473,6 +501,7 @@ export type transacoesScalarWhereInput = {
   valor?: Prisma.IntFilter<"transacoes"> | number
   fluxo?: Prisma.IntFilter<"transacoes"> | number
   user_id?: Prisma.IntFilter<"transacoes"> | number
+  occuredAt?: Prisma.DateTimeFilter<"transacoes"> | Date | string
 }
 
 export type transacoesCreateManyUserInput = {
@@ -480,12 +509,14 @@ export type transacoesCreateManyUserInput = {
   item_id: string
   valor: number
   fluxo: number
+  occuredAt?: Date | string
 }
 
 export type transacoesUpdateWithoutUserInput = {
   item_id?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type transacoesUncheckedUpdateWithoutUserInput = {
@@ -493,6 +524,7 @@ export type transacoesUncheckedUpdateWithoutUserInput = {
   item_id?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type transacoesUncheckedUpdateManyWithoutUserInput = {
@@ -500,6 +532,7 @@ export type transacoesUncheckedUpdateManyWithoutUserInput = {
   item_id?: Prisma.StringFieldUpdateOperationsInput | string
   valor?: Prisma.IntFieldUpdateOperationsInput | number
   fluxo?: Prisma.IntFieldUpdateOperationsInput | number
+  occuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -510,6 +543,7 @@ export type transacoesSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   valor?: boolean
   fluxo?: boolean
   user_id?: boolean
+  occuredAt?: boolean
   user?: boolean | Prisma.userDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["transacoes"]>
 
@@ -521,9 +555,10 @@ export type transacoesSelectScalar = {
   valor?: boolean
   fluxo?: boolean
   user_id?: boolean
+  occuredAt?: boolean
 }
 
-export type transacoesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "item_id" | "valor" | "fluxo" | "user_id", ExtArgs["result"]["transacoes"]>
+export type transacoesOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "item_id" | "valor" | "fluxo" | "user_id" | "occuredAt", ExtArgs["result"]["transacoes"]>
 export type transacoesInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.userDefaultArgs<ExtArgs>
 }
@@ -539,6 +574,7 @@ export type $transacoesPayload<ExtArgs extends runtime.Types.Extensions.Internal
     valor: number
     fluxo: number
     user_id: number
+    occuredAt: Date
   }, ExtArgs["result"]["transacoes"]>
   composites: {}
 }
@@ -914,6 +950,7 @@ export interface transacoesFieldRefs {
   readonly valor: Prisma.FieldRef<"transacoes", 'Int'>
   readonly fluxo: Prisma.FieldRef<"transacoes", 'Int'>
   readonly user_id: Prisma.FieldRef<"transacoes", 'Int'>
+  readonly occuredAt: Prisma.FieldRef<"transacoes", 'DateTime'>
 }
     
 

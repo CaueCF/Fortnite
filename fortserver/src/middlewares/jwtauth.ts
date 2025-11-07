@@ -6,7 +6,7 @@ dotenv.config();
 
 export interface CustomRequest extends Request {
     token: string | JwtPayload;
-   }
+}
 
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
 
@@ -16,7 +16,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
         if (!token) {
             throw new Error();
         }
-        if(!process.env.JWT_SECRET_KEY){
+        if (!process.env.JWT_SECRET_KEY) {
             throw new Error('JWT_SECRET_KEY must be defined')
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);

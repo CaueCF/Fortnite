@@ -390,7 +390,6 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  credenciais: 'credenciais',
   user: 'user',
   inventarios: 'inventarios',
   transacoes: 'transacoes'
@@ -409,76 +408,10 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "credenciais" | "user" | "inventarios" | "transacoes"
+    modelProps: "user" | "inventarios" | "transacoes"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
-    credenciais: {
-      payload: Prisma.$credenciaisPayload<ExtArgs>
-      fields: Prisma.credenciaisFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.credenciaisFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.credenciaisFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>
-        }
-        findFirst: {
-          args: Prisma.credenciaisFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.credenciaisFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>
-        }
-        findMany: {
-          args: Prisma.credenciaisFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>[]
-        }
-        create: {
-          args: Prisma.credenciaisCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>
-        }
-        createMany: {
-          args: Prisma.credenciaisCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.credenciaisDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>
-        }
-        update: {
-          args: Prisma.credenciaisUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>
-        }
-        deleteMany: {
-          args: Prisma.credenciaisDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.credenciaisUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.credenciaisUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$credenciaisPayload>
-        }
-        aggregate: {
-          args: Prisma.CredenciaisAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateCredenciais>
-        }
-        groupBy: {
-          args: Prisma.credenciaisGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CredenciaisGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.credenciaisCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.CredenciaisCountAggregateOutputType> | number
-        }
-      }
-    }
     user: {
       payload: Prisma.$userPayload<ExtArgs>
       fields: Prisma.userFieldRefs
@@ -716,18 +649,10 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const CredenciaisScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  senha: 'senha',
-  username: 'username'
-} as const
-
-export type CredenciaisScalarFieldEnum = (typeof CredenciaisScalarFieldEnum)[keyof typeof CredenciaisScalarFieldEnum]
-
-
 export const UserScalarFieldEnum = {
   id: 'id',
+  email: 'email',
+  senha: 'senha',
   nome: 'nome',
   vbucks: 'vbucks'
 } as const
@@ -749,7 +674,8 @@ export const TransacoesScalarFieldEnum = {
   item_id: 'item_id',
   valor: 'valor',
   fluxo: 'fluxo',
-  user_id: 'user_id'
+  user_id: 'user_id',
+  occuredAt: 'occuredAt'
 } as const
 
 export type TransacoesScalarFieldEnum = (typeof TransacoesScalarFieldEnum)[keyof typeof TransacoesScalarFieldEnum]
@@ -763,15 +689,9 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const credenciaisOrderByRelevanceFieldEnum = {
-  senha: 'senha',
-  username: 'username'
-} as const
-
-export type credenciaisOrderByRelevanceFieldEnum = (typeof credenciaisOrderByRelevanceFieldEnum)[keyof typeof credenciaisOrderByRelevanceFieldEnum]
-
-
 export const userOrderByRelevanceFieldEnum = {
+  email: 'email',
+  senha: 'senha',
   nome: 'nome'
 } as const
 
@@ -809,6 +729,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'String'
  */
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -905,7 +832,6 @@ export interface PrismaClientOptions {
   omit?: GlobalOmitConfig
 }
 export type GlobalOmitConfig = {
-  credenciais?: Prisma.credenciaisOmit
   user?: Prisma.userOmit
   inventarios?: Prisma.inventariosOmit
   transacoes?: Prisma.transacoesOmit

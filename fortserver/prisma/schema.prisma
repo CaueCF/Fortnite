@@ -8,21 +8,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model credenciais {
-  id       Int    @id @default(autoincrement())
-  userId   Int
-  senha    String @db.VarChar(100)
-  username String @db.VarChar(50)
-  user     user   @relation(fields: [userId], references: [id], onUpdate: Restrict, map: "credenciais_ibfk_1")
-
-  @@index([userId], map: "userId")
-}
-
 model user {
   id          Int           @id @default(autoincrement())
+  email       String        @db.VarChar(200)
+  senha       String        @db.VarChar(200)
   nome        String        @db.VarChar(200)
-  vbucks      Int
-  credenciais credenciais[]
+  vbucks      Int           @default(10000)
   inventarios inventarios[]
   transacoes  transacoes[]
 }
@@ -37,12 +28,13 @@ model inventarios {
 }
 
 model transacoes {
-  id      Int    @id @default(autoincrement())
-  item_id String @db.VarChar(200)
-  valor   Int
-  fluxo   Int
-  user_id Int
-  user    user   @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "transacoes_ibfk_1")
+  id        Int      @id @default(autoincrement())
+  item_id   String   @db.VarChar(200)
+  valor     Int
+  fluxo     Int
+  user_id   Int
+  occuredAt DateTime @default(now()) @db.Date
+  user      user     @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "transacoes_ibfk_1")
 
   @@index([user_id], map: "user_id")
 }
