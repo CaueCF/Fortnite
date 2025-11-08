@@ -10,7 +10,7 @@ datasource db {
 
 model user {
   id          Int           @id @default(autoincrement())
-  email       String        @db.VarChar(200)
+  email       String        @unique(map: "email") @db.VarChar(200)
   senha       String        @db.VarChar(200)
   nome        String        @db.VarChar(200)
   vbucks      Int           @default(10000)
@@ -24,6 +24,7 @@ model inventarios {
   user_id Int
   user    user   @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "inventarios_ibfk_1")
 
+  @@unique([item_id, user_id], map: "item_id")
   @@index([user_id], map: "user_id")
 }
 

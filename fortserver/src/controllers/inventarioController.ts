@@ -8,15 +8,49 @@ dotenv.config();
 
 const inventariosRouter = Router();
 
+// const prisma = new PrismaClient(
+//     {
+//         log: [
+//             {
+//                 emit: 'event',
+//                 level: 'query',
+//             },
+//             {
+//                 emit: 'stdout',
+//                 level: 'error',
+//             },
+//             {
+//                 emit: 'stdout',
+//                 level: 'info',
+//             },
+//             {
+//                 emit: 'stdout',
+//                 level: 'warn',
+//             },
+//         ],
+//     }
+// );
+
+// prisma.$on('query', (e) => {
+//     console.log('Query: ' + e.query)
+//     console.log('Params: ' + e.params)
+//     console.log('Duration: ' + e.duration + 'ms')
+// });
+
 const prisma = new PrismaClient();
 
 inventariosRouter.get('/data', verifyJWT,
     async (_req: Request, res: Response): Promise<Response> => {
+        try {
+            const inventarios = await prisma.inventarios.findMany();
+            // console.log(inventarios);
 
-        const inventarios = await prisma.inventarios.findMany();
-        console.log(inventarios);
-
-        return res.status(200).json(inventarios);
+            return res.status(200).json(inventarios);
+        }
+        catch (error) {
+            error = (error instanceof Error) ? error.message : String(error);
+            return res.status(500).send(error);
+        }
     });
 
 inventariosRouter.post('/data', verifyJWT,
@@ -44,34 +78,39 @@ inventariosRouter.post('/insertItem',
 
         try {
 
-            const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+            let user = await prisma.user.findUnique({ where: { id: Number(id) } });
 
             if (valor < user!.vbucks) {
-                let inventario = await prisma.inventarios.create({
-                    data: {
-                        item_id: itemId,
-                        user_id: Number(id),
-                    }
-                });
+                let inventario;
+                try {
+                    inventario = await prisma.inventarios.create({
+                        data: {
+                            item_id: itemId,
+                            user_id: Number(id),
+                        }
+                    });
+                    const transacao = await prisma.transacoes.create({
+                        data: {
+                            user_id: Number(id),
+                            item_id: itemId,
+                            fluxo: 0,
+                            valor: valor,
+                        },
+                    });
 
-                const transacao = await prisma.transacoes.create({
-                    data: {
-                        user_id: Number(id),
-                        item_id: itemId,
-                        fluxo: 0,
-                        valor: valor,
-                    }
-                });
+                    let novoSaldo = (user!.vbucks - valor);
 
-                let novoSaldo = (user!.vbucks - valor);
+                    console.log(novoSaldo)
 
-                let update = prisma.user.update({
-                    data: { vbucks: novoSaldo },
-                    where: { id: user?.id },
-                });
+                    user = await prisma.user.update({
+                        where: { id: user?.id },
+                        data: { vbucks: novoSaldo },
+                    });
 
-
-                return res.status(200).json({ inventario, transacao, user });
+                    return res.status(200).json({ inventario, transacao, user });
+                } catch {
+                    return res.status(422).send("Item já inserido em invetário");
+                }
             }
             else {
                 return res.status(422).send("Saldo insuficiente");
@@ -95,19 +134,25 @@ inventariosRouter.post('/removeItem',
 
         try {
 
-            const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+            let user = await prisma.user.findUnique({ where: { id: Number(id) } });
+
+            let item_inv = await prisma.inventarios.findFirst({
+                where: {
+                    item_id: itemId,
+                    user_id: Number(id),
+                }
+            })
 
             let inventario = await prisma.inventarios.delete({
                 where: {
-                    id: itemId,
-                    user_id: Number(id),
+                    id: item_inv?.id,
                 }
             });
 
             let item = await prisma.transacoes.findFirst({
                 where: {
                     item_id: itemId,
-                    user_id: id,
+                    user_id: Number(id),
                     fluxo: {
                         not: 1,
                     }
@@ -117,12 +162,12 @@ inventariosRouter.post('/removeItem',
                 }
             });
 
-            let valor = item!.valor; 
+            let valor = item!.valor;
 
             const transacao = await prisma.transacoes.create({
                 data: {
                     user_id: Number(id),
-                    item_id: 'asdasd',
+                    item_id: itemId,
                     fluxo: 1,
                     valor: valor,
                 }
@@ -130,7 +175,7 @@ inventariosRouter.post('/removeItem',
 
             let novoSaldo = (user!.vbucks + valor);
 
-            let update = prisma.user.update({
+            user = await prisma.user.update({
                 data: { vbucks: novoSaldo },
                 where: { id: user?.id },
             });

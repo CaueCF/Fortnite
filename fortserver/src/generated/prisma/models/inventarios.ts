@@ -217,13 +217,14 @@ export type inventariosOrderByWithRelationInput = {
 
 export type inventariosWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  item_id_user_id?: Prisma.inventariosItem_idUser_idCompoundUniqueInput
   AND?: Prisma.inventariosWhereInput | Prisma.inventariosWhereInput[]
   OR?: Prisma.inventariosWhereInput[]
   NOT?: Prisma.inventariosWhereInput | Prisma.inventariosWhereInput[]
   item_id?: Prisma.StringFilter<"inventarios"> | string
   user_id?: Prisma.IntFilter<"inventarios"> | number
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
-}, "id">
+}, "id" | "item_id_user_id">
 
 export type inventariosOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -297,6 +298,11 @@ export type inventariosOrderByRelevanceInput = {
   fields: Prisma.inventariosOrderByRelevanceFieldEnum | Prisma.inventariosOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
+}
+
+export type inventariosItem_idUser_idCompoundUniqueInput = {
+  item_id: string
+  user_id: number
 }
 
 export type inventariosCountOrderByAggregateInput = {
