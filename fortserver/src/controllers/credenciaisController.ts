@@ -101,13 +101,35 @@ credenciaisRouter.post('/login/auth',
                         expiresIn: '6h',
                     });
 
-                return res.status(200).json({
-                    code: code,
-                    userId: id,
-                    email: email,
-                    accessToken: accessToken,
-                    refreshToken: refreshToken
-                });
+                const isProd = process.env.NODE_ENV === 'production'
+
+                res.cookie(
+                    'token',
+                    {
+                        code: code,
+                        userId: id,
+                        email: email,
+                        accessToken: accessToken,
+                        refreshToken: refreshToken
+                    },
+                    {
+                        httpOnly: true,
+                        secure: isProd,
+                        sameSite: isProd ? 'none' : 'lax',
+                        maxAge: 60 * 60 * 1000 * 2,
+                        path: '/credenciais/login/auth',
+                        domain: isProd ? 'seu.dominio.com' : 'localhost'
+                    }
+                );
+
+                return res.status(200).json('okay');
+                // .json({
+                //     code: code,
+                //     userId: id,
+                //     email: email,
+                //     accessToken: accessToken,
+                //     refreshToken: refreshToken
+                // });
 
             } else {
                 throw new Error('Senha incorreta!');
@@ -131,25 +153,16 @@ credenciaisRouter.post('/createCredenciais',
             let User = await prisma.user.create({
                 data: {
                     nome: nome,
-                    vbucks: 10000,
                     email: email,
                     senha: hashSenha,
                 }
             });
 
-            // const credenciais = await prisma.credenciais.create({
-            //     data:{
-            //         userId: User.id,
-
-            //     }
-            // });
-            // console.log(credenciais);
-
             return res.status(200).json(User);
         }
         catch (error) {
             error = (error instanceof Error) ? error.message : String(error);
-            return res.status(500).send(error);
+            return res.status(422).send("Este email já está cadastrado");
         }
 
     });

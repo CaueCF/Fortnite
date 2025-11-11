@@ -1,4 +1,6 @@
-import { GalleryVerticalEnd, HomeIcon, ShoppingBasket } from "lucide-react"
+"use client"
+
+import { ShoppingBasket } from "lucide-react"
 
 import { LoginForm } from "@/components/login-form"
 

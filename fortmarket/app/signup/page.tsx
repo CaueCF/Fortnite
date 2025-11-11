@@ -1,4 +1,6 @@
-import { GalleryVerticalEnd, ShoppingBasket } from "lucide-react"
+"use client"
+
+import {  ShoppingBasket } from "lucide-react"
 
 import { SignupForm } from "@/components/signup-form"
 
@@ -23,7 +25,7 @@ export default function SignupPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <SignupForm onError={(e)=> console.error(e)}/>
+            <SignupForm />
           </div>
         </div>
       </div>
