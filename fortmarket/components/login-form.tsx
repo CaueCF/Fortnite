@@ -38,7 +38,7 @@ export function LoginForm({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      const request = await fetch('http://localhost:3030/credenciais/login/auth',
+      const response = await fetch('http://localhost:3030/credenciais/login/auth',
         {
           method: 'POST',
           headers: {
@@ -49,17 +49,17 @@ export function LoginForm({
         }
       )
 
-      if (!request.ok) {
+      if (!response.ok) {
         form.setError('email', { message: "Credenciais inválidas" });
         form.setError('senha', { message: "Credenciais inválidas" });
         return
       }
       else{
-        console.log(await request.json());
+        //console.log(await response.json());
         
       }
 
-      //router.replace('/');
+      return router.replace('/');
 
     } catch (error) {
       console.log(error);

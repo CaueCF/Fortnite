@@ -12,7 +12,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // const token = req.header('Authorization')?.replace('Bearer ', '');
-        const token = req.cookies['token'];
+        const token = req.cookies['token'].accessToken;
 
         if (!token) {
             throw new Error();
@@ -22,7 +22,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         (req as CustomRequest).token = decoded;
-
+        
         next();
     } catch (err) {
         res.status(401).send('Por favor, faça login!');

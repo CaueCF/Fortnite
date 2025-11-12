@@ -3,7 +3,7 @@ import { PrismaClient } from "../generated/prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
-import { verifyJWT } from "../middlewares/jwtauth";
+import { CustomRequest, verifyJWT } from "../middlewares/jwtauth";
 
 dotenv.config();
 
@@ -14,10 +14,35 @@ const prisma = new PrismaClient();
 credenciaisRouter.get('/data', verifyJWT,
     async (_req: Request, res: Response): Promise<Response> => {
 
-        const user = await prisma.user.findMany();
-        // console.log(user);
+        try {
+            const user = await prisma.user.findMany();
 
-        return res.status(200).json(user);
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).send(error);
+        }
+
+    });
+
+credenciaisRouter.post('/data', verifyJWT,
+    async (req: Request, res: Response): Promise<Response> => {
+
+        const email = req.cookies['token'].email;
+
+        try {
+            const user = await prisma.user.findUnique(
+                {
+                    where: {
+                        email: email
+                    }
+                }
+            );
+
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).send(error);
+        }
+
     });
 
 credenciaisRouter.post('/updateSenha', verifyJWT,
@@ -40,7 +65,6 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
                     id: credencial?.id,
                 }
             });
-            // console.log(user);
 
             return res.status(200).json(user);
         }
@@ -56,7 +80,7 @@ credenciaisRouter.post('/login/auth',
 
         let verify = false, code = 1;
         let { email, senha } = req.body;
-        // console.log({email, senha});
+
         try {
             const user = await prisma.user.findFirst({
                 where: {
@@ -64,16 +88,12 @@ credenciaisRouter.post('/login/auth',
                 }
             });
 
-            // console.log(senha);
-            // console.log(credenciais);
-
-
             if (!user) {
                 throw new Error('Nome de usuário incorreto');
             }
             verify = await bcrypt.compare(senha, user.senha);
             code = 0;
-            // console.log(verify);
+
 
             if (verify) {
 
@@ -92,14 +112,14 @@ credenciaisRouter.post('/login/auth',
                         expiresIn: '2h',
                     });
 
-                const refreshToken = jwt.sign({
-                    id: id,
-                    email: email,
-                },
-                    process.env.JWT_SECRET_KEY,
-                    {
-                        expiresIn: '6h',
-                    });
+                // const refreshToken = jwt.sign({
+                //     id: id,
+                //     email: email,
+                // },
+                //     process.env.JWT_SECRET_KEY,
+                //     {
+                //         expiresIn: '6h',
+                //     });
 
                 const isProd = process.env.NODE_ENV === 'production'
 
@@ -110,26 +130,19 @@ credenciaisRouter.post('/login/auth',
                         userId: id,
                         email: email,
                         accessToken: accessToken,
-                        refreshToken: refreshToken
+                        //refreshToken: refreshToken
                     },
                     {
                         httpOnly: true,
                         secure: isProd,
-                        sameSite: isProd ? 'none' : 'lax',
+                        sameSite: isProd ? 'strict' : 'lax',
                         maxAge: 60 * 60 * 1000 * 2,
-                        path: '/credenciais/login/auth',
+                        path: '/',
                         domain: isProd ? 'seu.dominio.com' : 'localhost'
                     }
                 );
 
                 return res.status(200).json('okay');
-                // .json({
-                //     code: code,
-                //     userId: id,
-                //     email: email,
-                //     accessToken: accessToken,
-                //     refreshToken: refreshToken
-                // });
 
             } else {
                 throw new Error('Senha incorreta!');
@@ -146,7 +159,7 @@ credenciaisRouter.post('/createCredenciais',
     async (req: Request, res: Response): Promise<Response> => {
 
         let { nome, email, senha } = req.body;
-        // console.log({nome, email, senha});
+
         let hashSenha = await bcrypt.hash(senha, Number(process.env.SALTROUNDS));
         try {
 
