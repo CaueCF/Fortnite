@@ -54,7 +54,11 @@ export default async function NavBar() {
                                 <Image
                                     src={"/Vbucks.svg"}
                                     alt="vbuck icon"
-                                    layout="fill"
+                                    fill
+                                    sizes="auto"
+                                    style={{
+                                        objectFit: "contain"
+                                    }}
                                     className="not-dark:invert"
                                 />
                             </div>
