@@ -6,9 +6,10 @@ export default async function Home() {
     <div className="flex min-h-screen 
     items-center justify-center 
     bg-zinc-50 font-sans dark:bg-[#101014]">
-      <main className="flex min-h-screen w-full 
-      flex-col items-center justify-between py-32 px-16 
-      bg-white dark:bg-[#101014] sm:items-start">
+      <main className="flex flex-col min-h-screen w-full 
+      items-start md:items-center-safe justify-between
+      py-12 px-8 
+      bg-white dark:bg-[#101014]">
         <Store />
       </main>
     </div>

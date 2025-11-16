@@ -3,12 +3,13 @@ import Image from "next/image";
 const CardItem = ({ item }: { item: Structure }) => {
     return (
         <div className='flex flex-col
-        bg-transparent rounded-md
+        bg-[#FFFFFF0D] rounded-md
         h-full
         wrap-break-word
         border
+        p-2
         '>
-            <div className='w-full rounded-2xl h-30 relative bg-slate-200'>
+            <div className='w-full rounded-2xl h-30 relative'>
                 <Image
                     src={item.images.smallIcon!}
                     alt={item.name}
@@ -19,8 +20,10 @@ const CardItem = ({ item }: { item: Structure }) => {
                     }}
                 />
             </div>
-            <p className='text-sm'>{item.type.value}</p>
-            <p className='text-lg'>{item.name}</p>
+            <div className="flex flex-col font-semibold">
+            <p className='text-lg'>{item.type.value}</p>
+            <p className='text-2xl'>{item.name}</p>
+            </div>
         </div>
     )
 }

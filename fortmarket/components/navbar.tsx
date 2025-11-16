@@ -32,7 +32,7 @@ export default async function NavBar() {
         <div className={archivo.className}>
             <div className="p-4 flex flex-row
             justify-between items-center-safe w-full
-            bg-zinc-50 dark:bg-[#101014]
+            bg-zinc-50 dark:bg-[#18181C]
             ">
                 <div className="flex flex-row 
                 place-self-center-safe place-items-center-safe">
@@ -50,7 +50,7 @@ export default async function NavBar() {
                         bg-[#18181B] dark:bg-[#FFFFFF]
                         text-[#FFFFFF] dark:text-[#18181B]
                         ">
-                            <div className="relative size-6">
+                            <div className="relative size-8">
                                 <Image
                                     src={"/Vbucks.svg"}
                                     alt="vbuck icon"
