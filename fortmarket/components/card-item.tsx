@@ -9,6 +9,7 @@ const CardItem = ({ item }: { item: Structure }) => {
         border
         p-2
         '>
+            
             <div className='w-full rounded-2xl h-30 relative'>
                 <Image
                     src={item.images.smallIcon!}

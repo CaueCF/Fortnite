@@ -11,16 +11,27 @@ export async function Store() {
     })
 
     let data = await response.json();
-    data = data.data;
+    data = data.data;    
     let br = data.br;
     let items:Structure[] = [];
 
+    Object.keys(data).map((element: any) =>{
+        data[element].map((i:any)=>{
+            items.push(i);
+        })
+        
+        
+    })
     // data.map((element: Structure) =>{
     //     items.push(element);
     // })
 
-    console.log(items);
+    //console.log(items);
     
+    let i = 1;
+    const numItems = 15;
+
+    console.log(items.slice(numItems*(i-1), numItems*i));
 
     return (<div className="grid grid-cols-1 md:grid-cols-3 
         gap-4 max-w-4xl w-full
@@ -29,7 +40,8 @@ export async function Store() {
         ">
         <Suspense>
             {
-                br.slice(16, 31).map((element: Structure, index: number) => {
+                
+                items.slice(numItems*(i-1), numItems*i).map((element: Structure, index: number) => {
                     return (
                         <div key={"div" + index} className="p-2">
                             <CardItem
