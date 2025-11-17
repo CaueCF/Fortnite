@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const CardItem = ({ item }: { item: Structure }) => {
+const CardItem = ({ item }: { item: any }) => {
     return (
         <div className='flex flex-col
         bg-[#FFFFFF0D] rounded-md

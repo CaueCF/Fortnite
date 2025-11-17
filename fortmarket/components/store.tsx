@@ -3,13 +3,13 @@
 import { useState } from "react"
 import CardItem from "./card-item"
 import { Button } from "./ui/button";
+import { JSONPath } from "jsonpath-plus";
 
-
-export function Store({ cosmeticsData, shopData }: { cosmeticsData: any, shopData:any }) {
+export function Store({ cosmeticsData, shopData }: { cosmeticsData: any, shopData: any }) {
 
     let br = cosmeticsData.br;
-    let shop = shopData;
-    console.log(shop.entries);
+    let shop = JSONPath({ path: '$.entries[?(@.brItems)]', json: shopData })
+    //console.log(shop);
 
     const [pageNumber, setPageNumber] = useState(1);
     const [hub, setHub] = useState("cosmetics");
@@ -19,22 +19,22 @@ export function Store({ cosmeticsData, shopData }: { cosmeticsData: any, shopDat
         <div className="flex flex-col">
             <div className="flex flex-row p-2 self-start items-center-safe gap-1">
                 <Button
-                onClick={() => { setHub("cosmetics") }}
-                disabled={(hub === "cosmetics")}
+                    onClick={() => { setHub("cosmetics") }}
+                    disabled={(hub === "cosmetics")}
                 >
                     Cosmetics
                 </Button>
                 <Button
-                onClick={() => { setHub("shop") }}
-                disabled={(hub === "shop")}
+                    onClick={() => { setHub("shop") }}
+                    disabled={(hub === "shop")}
                 >
                     Shop
                 </Button>
             </div>
             <div className="flex flex-row p-2 self-end items-center-safe gap-1">
                 <Button
-                onClick={() => { setPageNumber(1) }}
-                disabled={(pageNumber === 1)}
+                    onClick={() => { setPageNumber(1) }}
+                    disabled={(pageNumber === 1)}
                 >
                     Inicio
                 </Button>
@@ -46,14 +46,14 @@ export function Store({ cosmeticsData, shopData }: { cosmeticsData: any, shopDat
                 </Button>
                 <p className="p-4">{pageNumber}</p>
                 <Button
-                    disabled={(pageNumber === Math.round(br.length/numItems))}
+                    disabled={(pageNumber === Math.round(br.length / numItems))}
                     onClick={() => { setPageNumber(pageNumber + 1) }}
                 >
                     Avançar
                 </Button>
                 <Button
-                onClick={() => { setPageNumber(Math.round(br.length/numItems)) }}
-                disabled={(pageNumber === Math.round(br.length/numItems))}
+                    onClick={() => { setPageNumber(Math.round(br.length / numItems)) }}
+                    disabled={(pageNumber === Math.round(br.length / numItems))}
                 >
                     Fim
                 </Button>
@@ -65,29 +65,43 @@ export function Store({ cosmeticsData, shopData }: { cosmeticsData: any, shopDat
             items-stretch
             ">
                 {
-                hub === "cosmetics"?
-                    br.slice(numItems * (pageNumber - 1), numItems * pageNumber)
-                        .map((element: Structure, index: number) => {
-                            return (
-                                <div key={"div" + index} className="p-2">
-                                    <CardItem
-                                        key={index}
-                                        item={element}
-                                    />
-                                </div>
-                            )
-                        }):
-                        shop.entries.slice(numItems * (pageNumber - 1), numItems * pageNumber)
-                        .map((element: Structure, index: number) => {
-                            return (
-                                <div key={"div" + index} className="p-2">
-                                    <CardItem
-                                        key={index}
-                                        item={element}
-                                    />
-                                </div>
-                            )
-                        })
+                    hub === "cosmetics" ?
+                        br.slice(numItems * (pageNumber - 1), numItems * pageNumber)
+                            .map((element: Structure, index: number) => {
+                                return (
+                                    <div key={"div" + index} className="p-2">
+                                        <CardItem
+                                            key={index}
+                                            item={element}
+                                        />
+                                    </div>
+                                )
+                            }) :
+                        shop.slice(numItems * (pageNumber - 1), numItems * pageNumber)
+                            .map((element: any, index: number) => {
+                                if (element.brItems.length > 1) {
+                                    element.brItems.map((i: any, ind: number) => {
+                                        console.log(i);
+                                        return (
+                                            <div key={"div" + index} className="p-2">
+                                                <CardItem
+                                                    key={ind}
+                                                    item={i}
+                                                />
+                                            </div>
+                                        )
+                                    })
+                                } else {  
+                                    return (
+                                        <div key={"div" + index} className="p-2">
+                                            <CardItem
+                                                key={index}
+                                                item={element.brItem}
+                                            />
+                                        </div>
+                                    )
+                                }
+                            })
                 }
             </div>
         </div>
