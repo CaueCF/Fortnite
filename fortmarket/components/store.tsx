@@ -5,46 +5,56 @@ import CardItem from "./card-item"
 import { Button } from "./ui/button";
 
 
-export function Store({ data }: { data: any }) {
+export function Store({ cosmeticsData, shopData }: { cosmeticsData: any, shopData:any }) {
 
-    let br = data.br;
-
-    // let items:Structure[] = [];
-
-    // Object.keys(data).map((element: any) =>{
-    //     data[element].map((i:any)=>{
-    //         items.push(i);
-    //     })
-
-    // })
-
-    //console.log(items);
+    let br = cosmeticsData.br;
+    let shop = shopData;
+    console.log(shop.entries);
 
     const [pageNumber, setPageNumber] = useState(1);
+    const [hub, setHub] = useState("cosmetics");
     const numItems = 15;
-
-    //console.log(br.slice(numItems*(i-1), numItems*i));
 
     return (
         <div className="flex flex-col">
-            <div className="flex flex-row p-2 self-end items-center-safe">
-                <Button onClick={() => { setPageNumber(1) }}>
+            <div className="flex flex-row p-2 self-start items-center-safe gap-1">
+                <Button
+                onClick={() => { setHub("cosmetics") }}
+                disabled={(hub === "cosmetics")}
+                >
+                    Cosmetics
+                </Button>
+                <Button
+                onClick={() => { setHub("shop") }}
+                disabled={(hub === "shop")}
+                >
+                    Shop
+                </Button>
+            </div>
+            <div className="flex flex-row p-2 self-end items-center-safe gap-1">
+                <Button
+                onClick={() => { setPageNumber(1) }}
+                disabled={(pageNumber === 1)}
+                >
                     Inicio
                 </Button>
-                <Button className="p-2"
+                <Button
                     onClick={() => { setPageNumber(pageNumber - 1) }}
                     disabled={(pageNumber === 1)}
                 >
                     Voltar
                 </Button>
                 <p className="p-4">{pageNumber}</p>
-                <Button className="p-2"
+                <Button
                     disabled={(pageNumber === Math.round(br.length/numItems))}
                     onClick={() => { setPageNumber(pageNumber + 1) }}
                 >
                     Avançar
                 </Button>
-                <Button onClick={() => { setPageNumber(Math.round(br.length/numItems)) }}>
+                <Button
+                onClick={() => { setPageNumber(Math.round(br.length/numItems)) }}
+                disabled={(pageNumber === Math.round(br.length/numItems))}
+                >
                     Fim
                 </Button>
             </div>
@@ -55,7 +65,19 @@ export function Store({ data }: { data: any }) {
             items-stretch
             ">
                 {
+                hub === "cosmetics"?
                     br.slice(numItems * (pageNumber - 1), numItems * pageNumber)
+                        .map((element: Structure, index: number) => {
+                            return (
+                                <div key={"div" + index} className="p-2">
+                                    <CardItem
+                                        key={index}
+                                        item={element}
+                                    />
+                                </div>
+                            )
+                        }):
+                        shop.entries.slice(numItems * (pageNumber - 1), numItems * pageNumber)
                         .map((element: Structure, index: number) => {
                             return (
                                 <div key={"div" + index} className="p-2">
