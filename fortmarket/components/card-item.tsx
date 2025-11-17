@@ -4,7 +4,7 @@ const CardItem = ({ item }: { item: Structure }) => {
     return (
         <div className='flex flex-col
         bg-[#FFFFFF0D] rounded-md
-        h-full
+        h-full w-75
         wrap-break-word
         border
         p-2
