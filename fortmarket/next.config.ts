@@ -3,7 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['fortnite-api.com'],
+    remotePatterns: [new URL('https://fortnite-api.com/**')],
+    //domains: ['fortnite-api.com'],
     
   },
 };

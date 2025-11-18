@@ -1,30 +1,30 @@
 import { Store } from "@/components/store";
 import { Suspense } from "react";
 
-async function getCosmeticsData() {
-  const response = await fetch('https://fortnite-api.com/v2/cosmetics/?language=pt-BR', {
-    method: 'GET',
-  })
+// async function getCosmeticsData() {
+//   const response = await fetch('https://fortnite-api.com/v2/cosmetics/?language=pt-BR', {
+//     method: 'GET',
+//   })
 
-  let data = await response.json();
-  data = data.data;
-  return data;
-}
+//   let data = await response.json();
+//   data = data.data;
+//   return data;
+// }
 
-async function getShopData() {
-  const response = await fetch('https://fortnite-api.com/v2/shop/?language=pt-BR', {
-    method: 'GET',
-  })
+// async function getShopData() {
+//   const response = await fetch('https://fortnite-api.com/v2/shop/?language=pt-BR', {
+//     method: 'GET',
+//   })
 
-  let data = await response.json();
-  data = data.data;
-  return data;
-}
+//   let data = await response.json();
+//   data = data.data;
+//   return data;
+// }
 
 export default async function Home() {
 
-  const cosmetics = await getCosmeticsData();
-  const shop = await getShopData();
+  // const cosmetics = await getCosmeticsData();
+  // const shop = await getShopData();
 
   return (
     <div className="flex min-h-screen 
@@ -35,10 +35,7 @@ export default async function Home() {
       py-12 px-8 
       bg-white dark:bg-[#101014]">
         <Suspense>
-          <Store 
-          cosmeticsData={cosmetics}
-          shopData={shop}
-          />
+          <Store />
         </Suspense>
       </main>
     </div>
