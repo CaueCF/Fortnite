@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "E:\\Pessoal\\Fortmarket\\Fortnite\\fortserver\\src\\generated\\prisma",
+      "value": "D:\\Documentos\\Workshop\\JS\\Fortnite\\fortserver\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\Pessoal\\Fortmarket\\Fortnite\\fortserver\\prisma\\schema.prisma",
+    "sourceFilePath": "D:\\Documentos\\Workshop\\JS\\Fortnite\\fortserver\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
@@ -47,7 +47,6 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

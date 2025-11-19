@@ -54,10 +54,6 @@ export function LoginForm({
         form.setError('senha', { message: "Credenciais inválidas" });
         return
       }
-      else{
-        //console.log(await response.json());
-        
-      }
 
       return router.replace('/');
 

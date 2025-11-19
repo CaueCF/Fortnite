@@ -111,16 +111,6 @@ credenciaisRouter.post('/login/auth',
                     {
                         expiresIn: '2h',
                     });
-
-                // const refreshToken = jwt.sign({
-                //     id: id,
-                //     email: email,
-                // },
-                //     process.env.JWT_SECRET_KEY,
-                //     {
-                //         expiresIn: '6h',
-                //     });
-
                 const isProd = process.env.NODE_ENV === 'production'
 
                 res.cookie(
@@ -130,7 +120,6 @@ credenciaisRouter.post('/login/auth',
                         userId: id,
                         email: email,
                         accessToken: accessToken,
-                        //refreshToken: refreshToken
                     },
                     {
                         httpOnly: true,
@@ -178,6 +167,13 @@ credenciaisRouter.post('/createCredenciais',
             return res.status(422).send("Este email já está cadastrado");
         }
 
+    });
+
+credenciaisRouter.post('/logout', verifyJWT,
+    async (req: Request, res: Response): Promise<Response> => {
+
+        res.clearCookie('token');
+        return res.status(200).json({message: "Logour com sucesso!"});
     });
 
 export default credenciaisRouter;

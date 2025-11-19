@@ -3,6 +3,8 @@ import NavigationMenuWithActiveItem from "./navigation-menu-04";
 import Link from "next/link";
 import { Archivo } from "next/font/google";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { LogOut } from "lucide-react";
 
 const archivo = Archivo({
     subsets: ['latin'],
@@ -22,6 +24,19 @@ export default async function NavBar() {
             credentials: "include",
         }
     )
+
+    const handleLogout = async () => {
+        await fetch('http://localhost:3030/credenciais/logout',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "aplication/json",
+                    cookie: cookieList.toString(),
+                },
+                credentials: "include",
+            }
+        )
+    }
 
     let data = null;
     if (requestUser.ok) {
@@ -66,6 +81,7 @@ export default async function NavBar() {
                             <p className="text-lg">{data.vbucks}</p>
                         </div>
                         <p className="self-center-safe">{data.nome}</p>
+                        <Button className="p-2" onClick={handleLogout}><LogOut/></Button>
                     </div> :
                     <Link href={'/login'}>Login</Link>
                 }
