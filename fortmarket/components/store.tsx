@@ -131,7 +131,7 @@ export function Store() {
                             .map((element: any, index: number) => {
 
                                 if (element.bundle) {
-                                    return (<div className="col-span-2 p-2" key={"div"+index}>
+                                    return (<div className="col-span-2 justify-center-safe p-2" key={"div"+index}>
                                         <BundleShopCardItem
                                             bundle={element.bundle}
                                             regularPrice={element.regularPrice}

@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image"
 
-export async function ItemDetails({itemId}:{itemId:any}) {
+export async function ItemDetails({itemId}:{itemId:string}) {
+
+    console.log(itemId);
 
     const res = await fetch("https://fortnite-api.com/v2/cosmetics/br/"+{itemId}+"?language=pt-BR",{
-        method:"POST",
+        method:"GET",
     })
+    console.log(res);
     
     let item = await res.json();
     item = item.data;
