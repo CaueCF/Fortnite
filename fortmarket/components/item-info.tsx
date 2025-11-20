@@ -1,12 +1,14 @@
-// src/components/FortniteShopItemDetails.tsx
-
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Image from "next/image"
 
-export async function FortniteShopItemDetails({itemId}:{itemIde:any}) {
+export async function ItemDetails({itemId}:{itemId:any}) {
 
-    fetch("https://fortnite-api.com/v2/cosmetics/br/%7Bcosmetic-id%7D")
+    const res = await fetch("https://fortnite-api.com/v2/cosmetics/br/"+{itemId}+"?language=pt-BR",{
+        method:"POST",
+    })
+    
+    let item = await res.json();
+    item = item.data;
 
     return (
         <div className="min-h-screen bg-black text-white p-4 font-sans">
@@ -20,7 +22,6 @@ export async function FortniteShopItemDetails({itemId}:{itemIde:any}) {
                     min-h-[500px] lg:min-h-[90vh] 
                     rounded-lg">
 
-                    {/* Botão VER PRÉVIA */}
                     <Button className="absolute 
                     top-6 left-6 
                     bg-zinc-700 hover:bg-zinc-600 
@@ -32,12 +33,11 @@ export async function FortniteShopItemDetails({itemId}:{itemIde:any}) {
 
                     <div className="flex justify-center items-center h-full">
                         <Image
-                            src={imageUrl}
-                            alt={title}
+                            src={item.images.icon}
+                            alt={item.name}
                             fill
                             sizes="auto"
                             style={{
-                                objectFit: "contain",
                                 width: '100%',
                             }}
                             className="max-h-[80%] object-contain"
@@ -50,26 +50,15 @@ export async function FortniteShopItemDetails({itemId}:{itemIde:any}) {
                     p-8 space-y-6 
                     rounded-lg">
 
-                    {/* Tag NOVO */}
-                    <Badge
-                        variant="default"
-                        className="bg-yellow-500 
-                        text-black 
-                        font-bold 
-                        uppercase text-xs 
-                        px-2 py-1 rounded-sm"
-                    >
-                        Novo!
-                    </Badge>
-
                     <div>
-                        <p className="text-zinc-400 text-sm uppercase">{style}</p>
+                        <p className="text-zinc-400 text-sm uppercase">{item.type.displayValue}</p>
                         <h1 className="text-5xl font-extrabold uppercase tracking-tight">
-                            {title}
+                            {item.name}
                         </h1>
+                        <p className="text-zinc-400 text-sm uppercase">{item.type.displayValue}</p>
                     </div>
 
-                    <div className="flex items-end space-x-3">
+                    {/* <div className="flex items-end space-x-3">
                         <h2 className="text-4xl font-extrabold tracking-tight">
                             {vbucksCurrent}
                         </h2>
@@ -78,9 +67,9 @@ export async function FortniteShopItemDetails({itemId}:{itemIde:any}) {
                         <span className="text-lg text-zinc-500 line-through">
                             {vbucksOld}
                         </span>
-                    </div>
+                    </div> */}
 
-                    <div className="flex flex-col space-y-3">
+                    {/* <div className="flex flex-col space-y-3">
                         <Button
                             className="bg-yellow-500 hover:bg-yellow-600 
                             text-black font-extrabold uppercase 
@@ -95,35 +84,18 @@ export async function FortniteShopItemDetails({itemId}:{itemIde:any}) {
                                         >
                             Ver Pacotão
                         </Button>
-                    </div>
+                    </div> */}
 
                     <div className="space-y-4 text-sm text-zinc-400">
-                        <p className="text-white text-base">{description}</p>
+                        <p className="text-white text-base">{item.description}</p>
 
-                        <div className="space-y-2">
-                            <p className="text-white text-base">
-                                Esses itens podem ser usados em:
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {usedIn.map((use: any, index: number) => (
-                                    <Badge
-                                        key={index}
-                                        className="bg-zinc-700 text-white 
-                                        border-zinc-600 border 
-                                        px-3 py-1 
-                                        text-xs rounded-sm"
-                                    >
-                                        {use}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </div>
-
-                        <p>{seasonInfo}</p>
-                        <p className="text-xs text-zinc-500">{saleDate}</p>
+                        <p>{item.introduction.text}</p>
+                        {/* <p className="text-xs text-zinc-500">{saleDate}</p> */}
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+
+export default ItemDetails;

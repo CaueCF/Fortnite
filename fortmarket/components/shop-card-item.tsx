@@ -1,6 +1,10 @@
 import Image from "next/image";
 
+import { useRouter } from "next/navigation";
+
 const ShopCardItem = ({ item, finalPrice, regularPrice }: { item: any, finalPrice: number, regularPrice: number }) => {
+
+    const router = useRouter();
 
     return (
         <div className='flex flex-col
@@ -9,7 +13,13 @@ const ShopCardItem = ({ item, finalPrice, regularPrice }: { item: any, finalPric
         wrap-break-word
         border
         p-2
-        '>
+        '
+        onClick={
+            () => {
+          // <pathname>?sort=asc
+          router.push('/'+item.id)
+        }
+        }>
             <div className='w-full rounded-2xl h-30 relative'>
                 <Image
                     src={item.images.smallIcon}
