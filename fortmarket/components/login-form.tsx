@@ -101,12 +101,12 @@ export function LoginForm({
             <Field>
               <div className="flex items-center">
                 <FieldLabel htmlFor="password_label">Senha</FieldLabel>
-                <a
+                {/* <a
                   href="#"
                   className="ml-auto text-sm underline-offset-4 hover:underline"
                 >
                   Esqueceu sua senha?
-                </a>
+                </a> */}
               </div>
               <Input
                 {...field}

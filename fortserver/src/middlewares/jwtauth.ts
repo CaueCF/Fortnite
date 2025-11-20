@@ -25,6 +25,6 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
         
         next();
     } catch (err) {
-        res.status(401).send('Por favor, faça login!');
+        res.status(401).send();
     }
 }
