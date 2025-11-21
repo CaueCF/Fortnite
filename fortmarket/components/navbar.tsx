@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
 import NavigationMenuWithActiveItem from "./navigation-menu-04";
-import Link from "next/link";
 import { Archivo } from "next/font/google";
 import LoggedButton from "./logged-button";
 
