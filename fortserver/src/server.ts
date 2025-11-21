@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 const corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: ["https://fortnite-d3q1vzuhg-caues-projects-301685e3.vercel.app"],
   credentials: true,
 };
 
