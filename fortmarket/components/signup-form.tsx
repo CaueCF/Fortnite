@@ -56,7 +56,7 @@ export function SignupForm({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      const request = await fetch('http://localhost:3030/credenciais/createCredenciais',
+      const request = await fetch('http://fortnite-pcdm.vercel.app/credenciais/createCredenciais',
         {
           method: 'POST',
           headers: {

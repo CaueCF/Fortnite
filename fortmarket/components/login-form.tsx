@@ -38,7 +38,7 @@ export function LoginForm({
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch('http://localhost:3030/credenciais/login/auth',
+      const response = await fetch('http://fortnite-pcdm.vercel.app/credenciais/login/auth',
         {
           method: 'POST',
           headers: {

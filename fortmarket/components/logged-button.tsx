@@ -32,7 +32,7 @@ export default function LoggedButton() {
     const [logged, setLogged] = useState<boolean>(false);
 
     const handleLogout = async () => {
-        await fetch('http://localhost:3030/credenciais/logout',
+        await fetch('http://fortnite-pcdm.vercel.app/credenciais/logout',
             {
                 method: 'POST',
                 headers: {
@@ -62,7 +62,7 @@ export default function LoggedButton() {
         return res.json();
     }
 
-    const { data, error, isLoading } = useSWR('http://localhost:3030/credenciais/data', fetcher,
+    const { data, error, isLoading } = useSWR('http://fortnite-pcdm.vercel.app/credenciais/data', fetcher,
         {
             revalidateOnFocus: false,
             errorRetryCount: 1,
