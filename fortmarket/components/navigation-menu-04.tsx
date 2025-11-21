@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const navigationMenuItems = [
   { title: "Loja de items", href: "/", icon: Home, isActive: true },
-  { title: "Comunidade", href: "/comunidade", icon: Rss },
+  //{ title: "Comunidade", href: "/comunidade", icon: Rss },
 ];
 
 export default function NavigationMenuWithActiveItem({

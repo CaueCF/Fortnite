@@ -42,7 +42,7 @@ export default async function Layout({
     }
     
     return (
-        <html lang="en" className="dark">
+        <html lang="pt-br" className="dark">
               <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
               >
