@@ -21,7 +21,7 @@ export async function ItemDetails(
                     flex flex-col 
                     justify-end 
                     p-4 
-                    max-h-10/12 
+                     
                     rounded-lg">
 
                     {item.images.icon ?
