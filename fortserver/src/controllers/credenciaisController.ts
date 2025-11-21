@@ -49,13 +49,12 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
     async (req: Request, res: Response): Promise<Response> => {
 
         let { senha } = req.body;
-        const token = req.headers.authorization;
-        const { id } = jwt.decode(String(token)) as { id: number };
+        const email = req.cookies['token'].email;
 
         try {
-            const credencial = await prisma.user.findFirst({
+            const credencial = await prisma.user.findUnique({
                 where: {
-                    id: Number(id),
+                    email: email
                 }
             });
             let hashSenha = await bcrypt.hash(senha, Number(process.env.SALTROUNDS));
@@ -78,11 +77,11 @@ credenciaisRouter.post('/updateSenha', verifyJWT,
 credenciaisRouter.post('/login/auth',
     async (req: Request, res: Response): Promise<Response> => {
 
-        let verify = false, code = 1;
+        let verify = false;
         let { email, senha } = req.body;
 
         try {
-            const user = await prisma.user.findFirst({
+            const user = await prisma.user.findUnique({
                 where: {
                     email: email,
                 }
@@ -92,7 +91,6 @@ credenciaisRouter.post('/login/auth',
                 throw new Error('Nome de usuário incorreto');
             }
             verify = await bcrypt.compare(senha, user.senha);
-            code = 0;
 
 
             if (verify) {
@@ -116,7 +114,6 @@ credenciaisRouter.post('/login/auth',
                 res.cookie(
                     'token',
                     {
-                        code: code,
                         userId: id,
                         email: email,
                         accessToken: accessToken,

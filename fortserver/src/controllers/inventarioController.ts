@@ -2,48 +2,16 @@ import { Request, Response, Router } from "express";
 import { PrismaClient } from "../generated/prisma/client";
 import dotenv from "dotenv";
 import { verifyJWT } from "../middlewares/jwtauth";
-import jwt from "jsonwebtoken";
 
 dotenv.config();
 
 const inventariosRouter = Router();
-
-// const prisma = new PrismaClient(
-//     {
-//         log: [
-//             {
-//                 emit: 'event',
-//                 level: 'query',
-//             },
-//             {
-//                 emit: 'stdout',
-//                 level: 'error',
-//             },
-//             {
-//                 emit: 'stdout',
-//                 level: 'info',
-//             },
-//             {
-//                 emit: 'stdout',
-//                 level: 'warn',
-//             },
-//         ],
-//     }
-// );
-
-// prisma.$on('query', (e) => {
-//     console.log('Query: ' + e.query)
-//     console.log('Params: ' + e.params)
-//     console.log('Duration: ' + e.duration + 'ms')
-// });
-
 const prisma = new PrismaClient();
 
-inventariosRouter.get('/data', verifyJWT,
+inventariosRouter.get('/data',
     async (_req: Request, res: Response): Promise<Response> => {
         try {
             const inventarios = await prisma.inventarios.findMany();
-            // console.log(inventarios);
 
             return res.status(200).json(inventarios);
         }
@@ -56,7 +24,7 @@ inventariosRouter.get('/data', verifyJWT,
 inventariosRouter.post('/data', verifyJWT,
     async (req: Request, res: Response): Promise<Response> => {
 
-        let userId = req.body;
+        const userId = req.cookies['token'].id;
 
         const inventarios = await prisma.inventarios.findMany({
             where: {
@@ -73,12 +41,15 @@ inventariosRouter.post('/insertItem',
 
         let { itemId, valor } = req.body;
 
-        const token = req.headers.authorization;
-        const { id } = jwt.decode(String(token)) as { id: number };
+        const email = req.cookies['token'].email;
 
         try {
 
-            let user = await prisma.user.findUnique({ where: { id: Number(id) } });
+            let user = await prisma.user.findUnique({
+                where: {
+                    email: email,
+                }
+            });
 
             if (valor < user!.vbucks) {
                 let inventario;
@@ -86,12 +57,12 @@ inventariosRouter.post('/insertItem',
                     inventario = await prisma.inventarios.create({
                         data: {
                             item_id: itemId,
-                            user_id: Number(id),
+                            user_id: user!.id,
                         }
                     });
                     const transacao = await prisma.transacoes.create({
                         data: {
-                            user_id: Number(id),
+                            user_id: user!.id,
                             item_id: itemId,
                             fluxo: 0,
                             valor: valor,
@@ -128,18 +99,20 @@ inventariosRouter.post('/removeItem',
     async (req: Request, res: Response): Promise<Response> => {
 
         let { itemId } = req.body;
-
-        const token = req.headers.authorization;
-        const { id } = jwt.decode(String(token)) as { id: number };
+        const email = req.cookies['token'].email;
 
         try {
 
-            let user = await prisma.user.findUnique({ where: { id: Number(id) } });
+            let user = await prisma.user.findUnique({
+                where: {
+                    email: email,
+                }
+            });
 
             let item_inv = await prisma.inventarios.findFirst({
                 where: {
                     item_id: itemId,
-                    user_id: Number(id),
+                    user_id: user?.id,
                 }
             })
 
@@ -152,7 +125,7 @@ inventariosRouter.post('/removeItem',
             let item = await prisma.transacoes.findFirst({
                 where: {
                     item_id: itemId,
-                    user_id: Number(id),
+                    user_id: user?.id,
                     fluxo: {
                         not: 1,
                     }
@@ -166,7 +139,7 @@ inventariosRouter.post('/removeItem',
 
             const transacao = await prisma.transacoes.create({
                 data: {
-                    user_id: Number(id),
+                    user_id: user!.id,
                     item_id: itemId,
                     fluxo: 1,
                     valor: valor,

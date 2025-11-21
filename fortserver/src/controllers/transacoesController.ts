@@ -13,8 +13,7 @@ const prisma = new PrismaClient();
 transacoesRouter.get('/data', verifyJWT,
     async (req: Request, res: Response): Promise<Response> => {
         try {
-            const token = req.headers.authorization;
-            const { id } = jwt.decode(String(token)) as { id: number };
+            const id = req.cookies['token'].id;
 
             const transacoes = await prisma.transacoes.findMany({
                 where: {
